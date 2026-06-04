@@ -74,7 +74,9 @@ enum BlocklistFileName: String, CaseIterable {
     }
 
     static func listsForMode(strict: Bool) -> [String] {
-        return strict ? (Self.strict.map { $0.filename } + customBlocklistFileNames) : Self.basic.map { $0.filename }
+        // NOTE: Custom build: Always apply Strict lists regardless of the UI toggle.
+        // Even if the UI shows "Basic", internally Strict + any 'fxcb-' custom lists are applied.
+        return Self.strict.map { $0.filename } + customBlocklistFileNames
     }
 
     static let customBlocklistJSONFilePrefix = "fxcb-"

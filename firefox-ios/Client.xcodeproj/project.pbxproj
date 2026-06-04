@@ -1376,6 +1376,7 @@
 		8CFBC18A2ECF44C400E5B22B /* ActionExtensionTelemetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFBC1892ECF44C400E5B22B /* ActionExtensionTelemetryTests.swift */; };
 		8CFBC18C2ECF44D400E5B22B /* ActionExtensionTelemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFBC18B2ECF44D400E5B22B /* ActionExtensionTelemetry.swift */; };
 		8D8251811F4DE67F00780643 /* AdvancedAccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8251721F4DE67E00780643 /* AdvancedAccountSettingViewController.swift */; };
+		8FE16F652FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F642FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json */; };
 		94AEF1552D690043003E2623 /* DownloadLiveActivityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AEF1542D690040003E2623 /* DownloadLiveActivityTest.swift */; };
 		94D3DD162D545B6A00D368B8 /* DownloadLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D3DD152D545B6A00D368B8 /* DownloadLiveActivity.swift */; };
 		94D3DD172D545B6A00D368B8 /* DownloadLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D3DD152D545B6A00D368B8 /* DownloadLiveActivity.swift */; };
@@ -9874,6 +9875,7 @@
 		8EE842C98096CD575BD8A54A /* co */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = co; path = co.lproj/LoginManager.strings; sourceTree = "<group>"; };
 		8FB14368A63D59970BB3CC80 /* hy-AM */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hy-AM"; path = "hy-AM.lproj/Intro.strings"; sourceTree = "<group>"; };
 		8FDA44F2B06D5761B1933186 /* fil */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fil; path = fil.lproj/Search.strings; sourceTree = "<group>"; };
+		8FE16F642FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fxcb-disconnect-block-cookies-content.json"; sourceTree = "<group>"; };
 		90794121B531190FE99303AA /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Today.strings; sourceTree = "<group>"; };
 		90AB4C7285299EB42B7F3E80 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		90D243608659440CC733A891 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Default Browser.strings"; sourceTree = "<group>"; };
@@ -14624,6 +14626,7 @@
 				EBB894F7219398E500EB91A0 /* TabContentBlocker.swift */,
 				EBB894FA219398E500EB91A0 /* TabContentBlocker+ContentScript.swift */,
 				EBB894F5219398E500EB91A0 /* TrackingProtectionPageStats.swift */,
+				8FE16F642FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json */,
 			);
 			path = ContentBlocker;
 			sourceTree = "<group>";
@@ -18426,6 +18429,7 @@
 				ED9DB4212DC57DF80072FF5F /* tags.yaml in Resources */,
 				C2F335342ECE33720071588A /* translations-engine.worker.js in Resources */,
 				C2F335352ECE33720071588A /* TranslationsEngine.js in Resources */,
+				8FE16F652FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json in Resources */,
 				D4AFAB0E2AFA8F9A000BFEAA /* SyncIntegrationTests in Resources */,
 				EDF2C05C2D6CDB6F00723609 /* AppIcons.xcassets in Resources */,
 				43F92B3829E9F52B000C0F17 /* AutofillAllFramesAtDocumentStart.js in Resources */,
