@@ -1,0 +1,103 @@
+name: Sync Mozilla upstream
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 18 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-mozilla-upstream-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Merge, build, and push
+    runs-on: macos-26
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out fork
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Merge Mozilla main
+        id: merge
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git remote add upstream https://github.com/mozilla-mobile/firefox-ios.git 2>/dev/null \
+            || git remote set-url upstream https://github.com/mozilla-mobile/firefox-ios.git
+          git fetch --no-tags upstream main
+
+          if git merge-base --is-ancestor upstream/main HEAD; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Fork is already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if ! git merge --no-edit upstream/main; then
+            echo "Upstream merge has conflicts:"
+            git diff --name-only --diff-filter=U
+            exit 1
+          fi
+
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node
+        if: steps.merge.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Select Xcode
+        if: steps.merge.outputs.changed == 'true'
+        run: |
+          sudo xcode-select -s /Applications/Xcode_26.5.app/Contents/Developer
+          xcodebuild -version
+
+      - name: Bootstrap Firefox
+        if: steps.merge.outputs.changed == 'true'
+        run: ./bootstrap.sh firefox --force
+
+      - name: Resolve Swift packages
+        if: steps.merge.outputs.changed == 'true'
+        run: |
+          xcodebuild \
+            -resolvePackageDependencies \
+            -project Client.xcodeproj \
+            -scheme Fennec \
+            -onlyUsePackageVersionsFromResolvedFile
+        working-directory: firefox-ios
+
+      - name: Build Firefox
+        if: steps.merge.outputs.changed == 'true'
+        run: |
+          xcodebuild -quiet \
+            -project Client.xcodeproj \
+            -scheme Fennec \
+            -destination 'generic/platform=iOS Simulator' \
+            -onlyUsePackageVersionsFromResolvedFile \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            CODE_SIGN_IDENTITY= \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+        working-directory: firefox-ios
+
+      - name: Check generated changes
+        if: steps.merge.outputs.changed == 'true'
+        run: git diff --exit-code
+
+      - name: Push merged main
+        if: steps.merge.outputs.changed == 'true'
+        run: git push origin HEAD:main
