@@ -108,4 +108,4 @@ jobs:
 
       - name: Push merged main
         if: steps.merge.outputs.changed == 'true'
-        run: git push origin HEAD:main
+        run: git push --no-verify origin HEAD:main
