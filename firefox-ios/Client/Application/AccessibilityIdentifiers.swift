@@ -819,6 +819,7 @@ struct AccessibilityIdentifiers {
         struct TrackingProtection {
             static let basic = "Settings.TrackingProtectionOption.BlockListBasic"
             static let strict = "Settings.TrackingProtectionOption.BlockListStrict"
+            static let aggressive = "Settings.TrackingProtectionOption.BlockListAggressive"
         }
 
         struct Autoplay {

@@ -46,7 +46,10 @@ struct ToUExperiencePointsCalculator {
             // meaning that user explicitly disabled tracking protection
             return false
         }
-        return userDefaults.string(forKey: strengthKey) == BlockingStrength.strict.rawValue
+        let currentStrength = userDefaults
+            .string(forKey: strengthKey)
+            .flatMap(BlockingStrength.init(rawValue:)) ?? .basic
+        return currentStrength.usesStrictBlocking
     }
 
     private func hasDisabledSponsoredContent() -> Bool {

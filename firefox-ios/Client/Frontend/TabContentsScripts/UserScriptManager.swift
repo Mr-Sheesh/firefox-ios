@@ -104,7 +104,12 @@ class UserScriptManager {
         return try? NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
     }
 
-    public func injectUserScriptsIntoWebView(_ webView: WKWebView?, nightMode: Bool, noImageMode: Bool) {
+    public func injectUserScriptsIntoWebView(
+        _ webView: WKWebView?,
+        nightMode: Bool,
+        noImageMode: Bool,
+        aggressiveAdBlocking: Bool = false
+    ) {
         // Start off by ensuring that any previously-added user scripts are
         // removed to prevent the same script from being injected twice.
         webView?.configuration.userContentController.removeAllUserScripts()
@@ -134,7 +139,17 @@ class UserScriptManager {
 
             let webcompatName = "Webcompat\(name)"
             if let webcompatUserScript = compiledUserScripts[webcompatName] {
-                webView?.configuration.userContentController.addUserScript(webcompatUserScript)
+                if aggressiveAdBlocking && webcompatName == "WebcompatAllFramesAtDocumentStart" {
+                    let source = "window.__firefoxIOSAggressiveAdBlocking = true;\(webcompatUserScript.source)"
+                    let aggressiveWebcompatUserScript = WKUserScript.createInPageContentWorld(
+                        source: source,
+                        injectionTime: .atDocumentStart,
+                        forMainFrameOnly: false
+                    )
+                    webView?.configuration.userContentController.addUserScript(aggressiveWebcompatUserScript)
+                } else {
+                    webView?.configuration.userContentController.addUserScript(webcompatUserScript)
+                }
             }
         }
         // Inject the Print Helper. This needs to be in the `page` content world in order to hook `window.print()`.

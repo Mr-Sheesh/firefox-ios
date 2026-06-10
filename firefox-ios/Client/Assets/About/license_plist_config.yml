@@ -74,6 +74,8 @@ manual:
   # Manually add Down's license so we can correct some run-on text in the generated HTML
   - name: "Down"
     file: "LicenseFiles/Down License.txt"
+  - name: "AdGuard SafariConverterLib and Safari Extension"
+    file: "LicenseFiles/AdGuard SafariConverterLib GPL-3.0.txt"
 
 # Rename a few packages to more human-readable names
 rename:

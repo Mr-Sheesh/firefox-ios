@@ -116,7 +116,7 @@ extension PhotonActionSheetProtocol {
         if let url = tab.webView?.url,
            let helper = tab.contentBlocker,
            helper.isEnabled,
-           helper.blockingStrengthPref == .strict {
+           helper.blockingStrengthPref.usesStrictBlocking {
             let isSafelisted = helper.status == .safelisted
 
             let title: String = !isSafelisted ? .TrackingProtectionReloadWithout : .TrackingProtectionReloadWith

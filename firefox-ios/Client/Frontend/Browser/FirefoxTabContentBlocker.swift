@@ -20,17 +20,28 @@ struct ContentBlockingConfig {
 enum BlockingStrength: String {
     case basic
     case strict
+    case aggressive
 
-    static let allOptions: [BlockingStrength] = [.basic, .strict]
+    static let allOptions: [BlockingStrength] = [.basic, .strict, .aggressive]
 }
 
 extension BlockingStrength {
+    var usesStrictBlocking: Bool {
+        return self != .basic
+    }
+
+    var includesCustomBlocklists: Bool {
+        return self == .aggressive
+    }
+
     var settingStatus: String {
         switch self {
         case .basic:
             return .TrackingProtectionOptionBlockListLevelStandardStatus
         case .strict:
             return .TrackingProtectionOptionBlockListLevelStrict
+        case .aggressive:
+            return .TrackingProtectionOptionBlockListLevelAggressive
         }
     }
 
@@ -40,6 +51,8 @@ extension BlockingStrength {
             return .TrackingProtectionOptionBlockListLevelStandard
         case .strict:
             return .TrackingProtectionOptionBlockListLevelStrict
+        case .aggressive:
+            return .TrackingProtectionOptionBlockListLevelAggressive
         }
     }
 
@@ -49,6 +62,8 @@ extension BlockingStrength {
             return .TrackingProtectionStandardLevelDescription
         case .strict:
             return .TrackingProtectionStrictLevelDescription
+        case .aggressive:
+            return .TrackingProtectionAggressiveLevelDescription
         }
     }
 
@@ -58,6 +73,8 @@ extension BlockingStrength {
             return AccessibilityIdentifiers.Settings.TrackingProtection.basic
         case .strict:
             return AccessibilityIdentifiers.Settings.TrackingProtection.strict
+        case .aggressive:
+            return AccessibilityIdentifiers.Settings.TrackingProtection.aggressive
         }
     }
 }
@@ -104,7 +121,11 @@ final class FirefoxTabContentBlocker: TabContentBlocker, TabContentScript {
 
     func setupForTab(completion: (() -> Void)? = nil) {
         guard let tab = tab else { return }
-        let rules = BlocklistFileName.listsForMode(strict: blockingStrengthPref == .strict)
+        (tab as? Tab)?.refreshUserScripts()
+        let rules = BlocklistFileName.listsForMode(
+            strict: blockingStrengthPref.usesStrictBlocking,
+            includeCustomBlocklists: blockingStrengthPref.includesCustomBlocklists
+        )
         logger.log("Setup tracking protection for tab: \(tab)", level: .info, category: .adblock)
         ContentBlocker.shared.setupTrackingProtection(
             forTab: tab,
@@ -122,7 +143,10 @@ final class FirefoxTabContentBlocker: TabContentBlocker, TabContentScript {
     }
 
     override func currentlyEnabledLists() -> [String] {
-        return BlocklistFileName.listsForMode(strict: blockingStrengthPref == .strict)
+        return BlocklistFileName.listsForMode(
+            strict: blockingStrengthPref.usesStrictBlocking,
+            includeCustomBlocklists: blockingStrengthPref.includesCustomBlocklists
+        )
     }
 
     override func notifyContentBlockingChanged() {

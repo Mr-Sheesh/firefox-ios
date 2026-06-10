@@ -4397,6 +4397,11 @@ extension BrowserViewController: LegacyTabDelegate {
         let blocker = FirefoxTabContentBlocker(tab: tab, prefs: profile.prefs)
         tab.contentBlocker = blocker
         tab.addContentScript(blocker, name: FirefoxTabContentBlocker.name())
+        let adGuardAdvancedBlocking = AdGuardAdvancedBlockingHelper(tab: tab, blocker: blocker)
+        tab.addContentScriptToPage(
+            adGuardAdvancedBlocking,
+            name: AdGuardAdvancedBlockingHelper.name()
+        )
 
         tab.addContentScript(FocusHelper(tab: tab), name: FocusHelper.name())
     }

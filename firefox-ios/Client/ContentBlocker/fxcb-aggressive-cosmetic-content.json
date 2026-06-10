@@ -1,0 +1,85 @@
+[
+  {
+    "trigger": {
+      "url-filter": ".*"
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": ".adsbygoogle, ins.adsbygoogle, [id^=\"google_ads_\"], [id^=\"div-gpt-ad\"], [id^=\"google_ads_iframe_\"], [data-ad-client], [data-ad-slot], [data-google-query-id]"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*"
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": ".ad, #ad, [class~=\"ads\"], [id=\"ads\"], .ad-container, .ads-container, .ad-wrapper, .ads-wrapper, .ad-slot, .ad-unit, .advert, .advertisement, .advertisement-container"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*"
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": "[aria-label=\"Advertisement\"], [aria-label=\"advertisement\"], [data-ad], [data-ad-unit], [data-ad-unit-id], [data-ad-zone], [data-advertisement], [data-testid=\"ad\"], [data-testid=\"advertisement\"]"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*"
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": ".sponsored-content, .sponsored-post, .sponsored-story, .promoted-content, .promoted-post, .native-ad, .native-advertisement, [data-sponsored], [data-promoted]"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*"
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": ".OUTBRAIN, .outbrain, [class^=\"OUTBRAIN\"], .trc_related_container, [id^=\"taboola-\"], [class*=\"taboola\"], [data-widget-id^=\"taboola\"]"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*"
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": "iframe[src*=\"googlesyndication.com\"], iframe[src*=\"doubleclick.net\"], iframe[src*=\"adnxs.com\"], iframe[src*=\"taboola.com\"], iframe[src*=\"outbrain.com\"], iframe[src*=\"amazon-adsystem.com\"], iframe[src*=\"criteo.com\"]"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*"
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": ".adblock-modal, .adblock-overlay, #adblock-modal, #adblock-overlay, .anti-adblock, #anti-adblock, [data-adblock-message]"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": ["*yahoo.co.jp"]
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": "[data-yads], [id^=\"ssp_ydn_\"], #prem-ad, #ad-fixed-banner, #overlayAdsContainer, #overlayAdArea, #ad-popup-feedback, [data-key=\"prAd\"], [data-key=\"overlayAds\"], [data-rma-pos^=\"SPBP\"], [class^=\"PRAds_\"], [class^=\"OverlayAds_\"]"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": ["*game8.jp"]
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": ".ad-wrapper, [id^=\"div-gpt-ad-\"], [id^=\"google_ads_iframe_\"], [id^=\"g8-ad-placement-\"], .spOverlay, .interstitial, .overlayImageWrapper, [id^=\"ads-ADU-\"], #zucks_wipead, iframe[src^=\"blob:\"], iframe[src*=\"html-load.com\"], iframe[src*=\"ad-delivery.net\"]"
+    }
+  }
+]

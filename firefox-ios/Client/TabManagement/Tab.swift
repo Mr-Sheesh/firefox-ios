@@ -379,11 +379,7 @@ class Tab: NSObject,
 
             contentBlocker?.noImageMode(enabled: noImageMode)
 
-            UserScriptManager.shared.injectUserScriptsIntoWebView(
-                webView,
-                nightMode: nightMode,
-                noImageMode: noImageMode
-            )
+            refreshUserScripts()
         }
     }
 
@@ -395,15 +391,28 @@ class Tab: NSObject,
                 NightModeHelper.jsCallbackBuilder(nightMode),
                 in: .world(name: NightModeHelper.name())
             )
-            UserScriptManager.shared.injectUserScriptsIntoWebView(
-                webView,
-                nightMode: nightMode,
-                noImageMode: noImageMode
-            )
+            refreshUserScripts()
         }
     }
 
     var contentBlocker: FirefoxTabContentBlocker?
+
+    func refreshUserScripts() {
+        let strength = profile.prefs
+            .stringForKey(ContentBlockingConfig.Prefs.StrengthKey)
+            .flatMap(BlockingStrength.init) ?? .basic
+        let isGloballyEnabled = profile.prefs
+            .boolForKey(ContentBlockingConfig.Prefs.EnabledKey) ?? ContentBlockingConfig.Defaults.NormalBrowsing
+        let isEnabled = contentBlocker?.isEnabled ?? isGloballyEnabled
+        let isSafelisted = url.map(ContentBlocker.shared.isSafelisted) ?? false
+
+        UserScriptManager.shared.injectUserScriptsIntoWebView(
+            webView,
+            nightMode: nightMode,
+            noImageMode: noImageMode,
+            aggressiveAdBlocking: isEnabled && strength == .aggressive && !isSafelisted
+        )
+    }
 
     /// Per-tab translation state. Mirrors the Redux `AddressBarState.translationConfiguration` so the
     /// toolbar/menu can be re-synced with the WKWebView's translated DOM after a tab switch.
@@ -560,11 +569,7 @@ class Tab: NSObject,
 
         configureEdgeSwipeGestureRecognizers()
 
-        UserScriptManager.shared.injectUserScriptsIntoWebView(
-            webView,
-            nightMode: nightMode,
-            noImageMode: noImageMode
-        )
+        refreshUserScripts()
 
         tabDelegate?.tab(self, didCreateWebView: webView)
         webViewLoadingObserver = webView.observe(\.isLoading) { [weak self] _, _ in

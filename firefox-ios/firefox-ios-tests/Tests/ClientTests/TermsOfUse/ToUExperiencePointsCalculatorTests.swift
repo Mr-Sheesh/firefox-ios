@@ -42,6 +42,16 @@ final class ToUExperiencePointsCalculatorTests: XCTestCase {
         XCTAssertEqual(calculator.calculatePoints(), 1)
     }
 
+    func testCalculatePoints_OnePoint_WhenETPAggressive() {
+        let enabledKey = ProfilePrefsReader.prefix + ContentBlockingConfig.Prefs.EnabledKey
+        let strengthKey = ProfilePrefsReader.prefix + ContentBlockingConfig.Prefs.StrengthKey
+        userDefaults.set(true, forKey: enabledKey)
+        userDefaults.set(BlockingStrength.aggressive.rawValue, forKey: strengthKey)
+
+        let calculator = ToUExperiencePointsCalculator(userDefaults: userDefaults, region: "US")
+        XCTAssertEqual(calculator.calculatePoints(), 1)
+    }
+
     func testCalculatePoints_OnePoint_WhenSponsoredDisabled() {
         let sponsoredKey = ProfilePrefsReader.prefix + PrefsKeys.FeatureFlags.SponsoredShortcuts
         userDefaults.set(false, forKey: sponsoredKey)

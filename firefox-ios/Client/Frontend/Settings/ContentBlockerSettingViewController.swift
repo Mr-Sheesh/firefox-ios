@@ -86,7 +86,7 @@ class ContentBlockerSettingViewController: SettingsTableViewController {
             let uuid = windowUUID
             setting.onAccessoryButtonTapped = {
                 let vc = TPAccessoryInfo(windowUUID: uuid)
-                vc.isStrictMode = option == .strict
+                vc.isStrictMode = option.usesStrictBlocking
                 self.navigationController?.pushViewController(vc, animated: true)
             }
 
@@ -141,7 +141,7 @@ class ContentBlockerSettingViewController: SettingsTableViewController {
     private func recordEventOnChecked(option: BlockingStrength, fromOption: BlockingStrength) {
         SettingsTelemetry().changedSetting("ETP-strength", to: option.rawValue, from: fromOption.rawValue)
 
-        if option == .strict {
+        if option.usesStrictBlocking {
             TelemetryWrapper.recordEvent(
                 category: .action,
                 method: .tap,

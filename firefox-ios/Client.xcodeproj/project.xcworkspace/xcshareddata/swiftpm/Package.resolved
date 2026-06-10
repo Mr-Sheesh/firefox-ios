@@ -1,5 +1,5 @@
 {
-  "originHash" : "080d5c14ff8b97f985991f02dd7321403b5a7e1b1243a154f2cdcc561b9bc212",
+  "originHash" : "31b0f3538cceba4be07b63abcf90a8c4b83fff30c078d0e331267d2c256c623d",
   "pins" : [
     {
       "identity" : "a-star",
@@ -101,6 +101,24 @@
       }
     },
     {
+      "identity" : "punycodeswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gumob/PunycodeSwift.git",
+      "state" : {
+        "revision" : "30a462bdb4398ea835a3585472229e0d74b36ba5",
+        "version" : "3.0.0"
+      }
+    },
+    {
+      "identity" : "safariconverterlib",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AdguardTeam/SafariConverterLib.git",
+      "state" : {
+        "revision" : "7a2e93f0afa70479cc59985f332025236c3f0c39",
+        "version" : "4.3.0"
+      }
+    },
+    {
       "identity" : "sentry-cocoa",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
@@ -116,6 +134,15 @@
       "state" : {
         "revision" : "e74fe2a978d1216c3602b129447c7301573cc2d8",
         "version" : "5.7.0"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "41982a3656a71c768319979febd796c6fd111d5c",
+        "version" : "1.5.0"
       }
     },
     {
@@ -143,6 +170,15 @@
       "state" : {
         "revision" : "95ba0316a9b733e92bb6b071255ff46263bbe7dc",
         "version" : "3.15.1"
+      }
+    },
+    {
+      "identity" : "swift-psl",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ameshkov/swift-psl",
+      "state" : {
+        "revision" : "dfcc558c33cbd27062d2c73e7e98c9782f0ef7c5",
+        "version" : "1.1.143"
       }
     },
     {

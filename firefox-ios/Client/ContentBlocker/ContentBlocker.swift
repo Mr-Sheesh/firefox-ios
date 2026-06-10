@@ -18,7 +18,7 @@ enum BlocklistCategory: CaseIterable {
         switch file {
         case .advertisingURLs, .advertisingCookies:
             return .advertising
-        case .analyticsURLs, .analyticsCookies:
+        case .analyticsURLs, .analyticsCookies, .contentURLs, .contentCookies:
             return .analytics
         case .socialURLs, .socialCookies:
             return .social
@@ -34,6 +34,7 @@ enum BlocklistFileName: String, CaseIterable {
     case advertisingURLs = "disconnect-block-advertising"
     case analyticsURLs = "disconnect-block-analytics"
     case socialURLs = "disconnect-block-social"
+    case contentURLs = "disconnect-block-content"
 
     case cryptomining = "disconnect-block-cryptomining"
     case fingerprinting = "disconnect-block-fingerprinting"
@@ -41,8 +42,9 @@ enum BlocklistFileName: String, CaseIterable {
     case advertisingCookies = "disconnect-block-cookies-advertising"
     case analyticsCookies = "disconnect-block-cookies-analytics"
     case socialCookies = "disconnect-block-cookies-social"
+    case contentCookies = "disconnect-block-cookies-content"
 
-    /// All blocklist files supported at runtime (both for Basic and Strict modes)
+    /// All blocklist files supported at runtime.
     static let allBlocklistFileNames: [String] = {
         return BlocklistFileName.allCases.map { $0.filename } + customBlocklistFileNames
     }()
@@ -61,8 +63,6 @@ enum BlocklistFileName: String, CaseIterable {
     }
 
     /// Blocklist files compiled for Strict tracking protection mode
-    /// If any custom JSON files are included in the bundle with the
-    /// required prefix they will also be compiled and applied for Strict.
     static var strict: [BlocklistFileName] {
         return [
             .advertisingURLs,
@@ -73,29 +73,44 @@ enum BlocklistFileName: String, CaseIterable {
         ]
     }
 
-    static func listsForMode(strict: Bool) -> [String] {
-        // NOTE: Custom build: Always apply Strict lists regardless of the UI toggle.
-        // Even if the UI shows "Basic", internally Strict + any 'fxcb-' custom lists are applied.
-        return Self.strict.map { $0.filename } + customBlocklistFileNames
+    static func listsForMode(strict: Bool, includeCustomBlocklists: Bool = false) -> [String] {
+        let lists = strict ? Self.strict : Self.basic
+        var blocklists = lists.map { $0.filename }
+        if includeCustomBlocklists {
+            blocklists.append(BlocklistFileName.contentURLs.filename)
+        }
+        return includeCustomBlocklists ? blocklists + customBlocklistFileNames : blocklists
     }
 
     static let customBlocklistJSONFilePrefix = "fxcb-"
+    static let jsonFileExtension = ".json"
     static let customBlocklistFileNames: [String] = {
-        var filenames: [String] = []
-        // Search the bundle for resources that match content blocking prefix + JSON type.
-        // This allows custom block lists to be more easily tested and loaded within the
-        // iOS client. Any custom lists can be bundled as json with the `fxcb-` prefix
-        // and they will be loaded alongside our standard Disconnect files.
-        if let resourceDir = Bundle.main.resourcePath,
-           let contents = try? FileManager.default.contentsOfDirectory(atPath: resourceDir) {
-            let filePrefix = customBlocklistJSONFilePrefix
-            contents.forEach {
-                guard $0.hasPrefix(filePrefix) && $0.hasSuffix("json") else { return }
-                filenames.append($0)
-            }
-        }
-        return filenames
+        return bundledCustomBlocklistFileNames()
     }()
+
+    static func bundledCustomBlocklistFileNames(in bundle: Bundle = .main) -> [String] {
+        guard let resourceDir = bundle.resourcePath,
+              let contents = try? FileManager.default.contentsOfDirectory(atPath: resourceDir) else {
+            return []
+        }
+
+        return customBlocklistFileNames(from: contents)
+    }
+
+    static func customBlocklistFileNames(from contents: [String]) -> [String] {
+        return contents
+            .filter { isCustomBlocklistFileName($0) && $0.hasSuffix(jsonFileExtension) }
+            .sorted()
+    }
+
+    static func normalizedResourceName(for file: String) -> String {
+        guard file.hasSuffix(jsonFileExtension) else { return file }
+        return String(file.dropLast(jsonFileExtension.count))
+    }
+
+    static func isCustomBlocklistFileName(_ file: String) -> Bool {
+        return file.hasPrefix(customBlocklistJSONFilePrefix)
+    }
 }
 
 enum BlockerStatus: String {
@@ -103,6 +118,10 @@ enum BlockerStatus: String {
     case noBlockedURLs // When TP is enabled but nothing is being blocked
     case safelisted
     case blocking
+}
+
+enum ContentBlockerLoadError: Error {
+    case missingBundledList(String)
 }
 
 struct NoImageModeDefaults {
@@ -136,6 +155,7 @@ class ContentBlocker {
 
         // Startup tracking stats checker
         TPStatsBlocklistChecker.shared.startup()
+        AdGuardFilterEngine.shared.prepare()
 
         // General list startup: remove old content-block lists (if needed) and compile latest lists
         logger.log("ContentBlocker startup...", level: .info, category: .adblock)
@@ -244,6 +264,19 @@ class ContentBlocker {
 // no longer match. Finally, any JSON rule files that aren't in the ruleStore need to be compiled and stored in the
 // ruleStore.
 extension ContentBlocker {
+    nonisolated private func loadBlocklistData(forResource file: String) throws -> Data {
+        let fileTrimmed = BlocklistFileName.normalizedResourceName(for: file)
+
+        if BlocklistFileName.isCustomBlocklistFileName(fileTrimmed) {
+            guard let path = Bundle.main.path(forResource: fileTrimmed, ofType: "json") else {
+                throw ContentBlockerLoadError.missingBundledList(file)
+            }
+            return try Data(contentsOf: URL(fileURLWithPath: path))
+        }
+
+        return try RemoteDataType.contentBlockingLists.loadLocalSettingsFileAsJSON(fileName: fileTrimmed)
+    }
+
     private func loadJsonFromBundle(
         forResource file: String,
         completion: @escaping @Sendable (
@@ -254,25 +287,11 @@ extension ContentBlocker {
         DispatchQueue.global().async {
             let source: String
             do {
-                let jsonSuffix = ".json"
-                let suffixLength = jsonSuffix.count
-                // Trim off .json suffix if needed, we only want the raw file name
-                let fileTrimmed = file.hasSuffix(jsonSuffix) ? String(file.dropLast(suffixLength)) : file
-
-                if fileTrimmed.hasPrefix(BlocklistFileName.customBlocklistJSONFilePrefix) {
-                    if let path = Bundle.main.path(forResource: fileTrimmed, ofType: "json") {
-                        source = try String(contentsOfFile: path, encoding: .utf8)
-                    } else {
-                        source = ""
-                    }
-                } else {
-                    let json = try RemoteDataType.contentBlockingLists.loadLocalSettingsFileAsJSON(fileName: fileTrimmed)
-                    source = String(data: json, encoding: .utf8) ?? ""
-                }
+                let json = try self.loadBlocklistData(forResource: file)
+                source = String(data: json, encoding: .utf8) ?? ""
             } catch let error {
                 source = ""
                 logger.log("Error loading content-blocking JSON: \(error)", level: .warning, category: .adblock)
-                assertionFailure("Error loading JSON from bundle.")
             }
 
             DispatchQueue.main.async {
@@ -312,9 +331,8 @@ extension ContentBlocker {
         let defaults = UserDefaults.standard
         var hasChanged = false
 
-        let lists = RemoteDataType.contentBlockingLists
         for list in blocklists {
-            guard let data = try? lists.loadLocalSettingsFileAsJSON(fileName: list) else { continue }
+            guard let data = try? loadBlocklistData(forResource: list) else { continue }
             guard let newHash = calculateHash(for: data) else { continue }
 
             let oldHash = defaults.string(forKey: list)
@@ -373,6 +391,12 @@ extension ContentBlocker {
     func compileListsNotInStore(completion: @escaping () -> Void) {
         // Compile the content blocking (in WebKit's required JSON format) for use with WKWebView
         logger.log("Compiling any lists not already in rule store...", level: .info, category: .adblock)
+        guard let ruleStore else {
+            logger.log("Content rule list store is unavailable.", level: .warning, category: .adblock)
+            completion()
+            return
+        }
+
         let blocklists = BlocklistFileName.allBlocklistFileNames
         let dispatchGroup = DispatchGroup()
         let totalListCount = blocklists.count
@@ -380,40 +404,20 @@ extension ContentBlocker {
         nonisolated(unsafe) var errorCount = 0
         blocklists.forEach { filename in
             dispatchGroup.enter()
-            ruleStore?.lookUpContentRuleList(forIdentifier: filename) { [weak self] contentRuleList, error in
+            ruleStore.lookUpContentRuleList(forIdentifier: filename) { [weak self] contentRuleList, _ in
                 // If the rule was found, we can exit immediately
                 if contentRuleList != nil {
                     dispatchGroup.leave()
                     return
                 }
 
-                self?.logger.log("Will compile list: \(filename)", level: .info, category: .adblock)
-                self?.loadJsonFromBundle(forResource: filename) { jsonString in
-                    ensureMainThread {
-                        var str = jsonString
-
-                        // Here we find the closing array bracket in the JSON string
-                        // and append our safelist as a rule to the end of the JSON.
-                        guard let self, let range = str.range(of: "]", options: String.CompareOptions.backwards) else {
-                            dispatchGroup.leave()
-                            return
-                        }
-                        str = str.replacingCharacters(in: range, with: self.safelistAsJSON() + "]")
-                        self.ruleStore?.compileContentRuleList(
-                            forIdentifier: filename,
-                            encodedContentRuleList: str
-                        ) { [weak self] rule, error in
-                            DispatchQueue.main.async {
-                                listsCompiledCount += 1
-                                errorCount += (error == nil ? 0 : 1)
-                                self?.compileContentRuleListCompletion(
-                                    dispatchGroup: dispatchGroup,
-                                    rule: rule,
-                                    error: error
-                                )
-                            }
-                        }
-                    }
+                guard let self else {
+                    dispatchGroup.leave()
+                    return
+                }
+                self.compileBlocklist(filename, dispatchGroup: dispatchGroup) { didCompile, failed in
+                    listsCompiledCount += didCompile ? 1 : 0
+                    errorCount += failed ? 1 : 0
                 }
             }
         }
@@ -426,20 +430,96 @@ extension ContentBlocker {
         }
     }
 
-    private func compileContentRuleListCompletion(dispatchGroup: DispatchGroup,
-                                                  rule: WKContentRuleList?,
-                                                  error: (any Error)?) {
+    private func compileBlocklist(
+        _ identifier: String,
+        dispatchGroup: DispatchGroup,
+        completion: @escaping @Sendable (_ didCompile: Bool, _ failed: Bool) -> Void
+    ) {
+        logger.log("Will compile list: \(identifier)", level: .info, category: .adblock)
+        loadJsonFromBundle(forResource: identifier) { [weak self] jsonString in
+            ensureMainThread {
+                guard let self else {
+                    completion(false, true)
+                    dispatchGroup.leave()
+                    return
+                }
+                self.compileLoadedBlocklist(
+                    jsonString,
+                    identifier: identifier,
+                    dispatchGroup: dispatchGroup,
+                    completion: completion
+                )
+            }
+        }
+    }
+
+    private func compileLoadedBlocklist(
+        _ jsonString: String,
+        identifier: String,
+        dispatchGroup: DispatchGroup,
+        completion: @escaping @Sendable (_ didCompile: Bool, _ failed: Bool) -> Void
+    ) {
+        guard let range = jsonString.range(of: "]", options: .backwards) else {
+            logger.log(
+                "Skipping invalid or empty content blocker list: \(identifier)",
+                level: .warning,
+                category: .adblock
+            )
+            completion(false, true)
+            dispatchGroup.leave()
+            return
+        }
+
+        let source = jsonString.replacingCharacters(
+            in: range,
+            with: safelistAsJSON() + "]"
+        )
+        guard let ruleStore else {
+            logger.log("Content rule list store is unavailable.", level: .warning, category: .adblock)
+            completion(false, true)
+            dispatchGroup.leave()
+            return
+        }
+        ruleStore.compileContentRuleList(
+            forIdentifier: identifier,
+            encodedContentRuleList: source
+        ) { [weak self] rule, error in
+            DispatchQueue.main.async {
+                guard let self else {
+                    completion(true, true)
+                    dispatchGroup.leave()
+                    return
+                }
+                completion(true, error != nil || rule == nil)
+                self.compileContentRuleListCompletion(
+                    dispatchGroup: dispatchGroup,
+                    identifier: identifier,
+                    rule: rule,
+                    error: error
+                )
+            }
+        }
+    }
+
+    private func compileContentRuleListCompletion(
+        dispatchGroup: DispatchGroup,
+        identifier: String,
+        rule: WKContentRuleList?,
+        error: (any Error)?
+    ) {
         defer {
             dispatchGroup.leave()
         }
         if let error {
-            logger.log("Content blocker compilation failed: \(error)", level: .warning, category: .adblock)
-            assertionFailure()
+            logger.log(
+                "Content blocker compilation failed for \(identifier): \(error)",
+                level: .warning,
+                category: .adblock
+            )
             return
         }
         guard rule != nil else {
-            logger.log("Nil rule set for BlockList.", level: .warning, category: .adblock)
-            assertionFailure()
+            logger.log("Nil rule set for \(identifier).", level: .warning, category: .adblock)
             return
         }
     }

@@ -6893,6 +6893,11 @@ extension String {
         tableName: nil,
         value: "Strict",
         comment: "Tracking protection settings option for using the strict blocklist.")
+    public static let TrackingProtectionOptionBlockListLevelAggressive = MZLocalizedString(
+        key: "Settings.TrackingProtectionOption.BlockListAggressive",
+        tableName: nil,
+        value: "Aggressive",
+        comment: "Tracking protection settings option for using strict blocking plus custom blocklists.")
     public static let TrackingProtectionReloadWithout = MZLocalizedString(
         key: "Menu.ReloadWithoutTrackingProtection.Title",
         tableName: nil,
@@ -6919,6 +6924,11 @@ extension String {
         tableName: nil,
         value: "Blocks more trackers, ads, and popups. Pages load faster, but some functionality may not work.",
         comment: "Description for strict level tracker protection")
+    public static let TrackingProtectionAggressiveLevelDescription = MZLocalizedString(
+        key: "Settings.TrackingProtection.ProtectionLevelAggressive.Description",
+        tableName: nil,
+        value: "Strict blocking plus bundled custom rules. Some sites may not work.",
+        comment: "Description for aggressive level tracker protection")
     public static let TrackingProtectionLevelFooter = MZLocalizedString(
         key: "Settings.TrackingProtection.ProtectionLevel.Footer.Lock",
         tableName: nil,

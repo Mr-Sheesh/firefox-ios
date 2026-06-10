@@ -1377,6 +1377,16 @@
 		8CFBC18C2ECF44D400E5B22B /* ActionExtensionTelemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFBC18B2ECF44D400E5B22B /* ActionExtensionTelemetry.swift */; };
 		8D8251811F4DE67F00780643 /* AdvancedAccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8251721F4DE67E00780643 /* AdvancedAccountSettingViewController.swift */; };
 		8FE16F652FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F642FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json */; };
+		8FE16F672FCD22F00094FA2C /* fxcb-aggressive-network-content.json in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F662FCD22F00094FA2C /* fxcb-aggressive-network-content.json */; };
+		8FE16F692FCD22F10094FA2C /* fxcb-aggressive-cosmetic-content.json in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F682FCD22F10094FA2C /* fxcb-aggressive-cosmetic-content.json */; };
+		8FE16F722FCD30000094FA2C /* ContentBlockerConverter in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE16F712FCD30000094FA2C /* ContentBlockerConverter */; };
+		8FE16F752FCD30000094FA2C /* AdGuardFilterEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE16F732FCD30000094FA2C /* AdGuardFilterEngine.swift */; };
+		8FE16F762FCD30000094FA2C /* AdGuardAdvancedBlockingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE16F742FCD30000094FA2C /* AdGuardAdvancedBlockingHelper.swift */; };
+		8FE16F7C2FCD30000094FA2C /* fxcb-adguard-base.json in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F772FCD30000094FA2C /* fxcb-adguard-base.json */; };
+		8FE16F7D2FCD30000094FA2C /* fxcb-adguard-tracking.json in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F782FCD30000094FA2C /* fxcb-adguard-tracking.json */; };
+		8FE16F7E2FCD30000094FA2C /* fxcb-adguard-japanese.json in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F792FCD30000094FA2C /* fxcb-adguard-japanese.json */; };
+		8FE16F7F2FCD30000094FA2C /* fxcb-adguard-annoyances.json in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F7A2FCD30000094FA2C /* fxcb-adguard-annoyances.json */; };
+		8FE16F802FCD30000094FA2C /* adguard-advanced-rules.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8FE16F7B2FCD30000094FA2C /* adguard-advanced-rules.txt */; };
 		94AEF1552D690043003E2623 /* DownloadLiveActivityTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AEF1542D690040003E2623 /* DownloadLiveActivityTest.swift */; };
 		94D3DD162D545B6A00D368B8 /* DownloadLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D3DD152D545B6A00D368B8 /* DownloadLiveActivity.swift */; };
 		94D3DD172D545B6A00D368B8 /* DownloadLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D3DD152D545B6A00D368B8 /* DownloadLiveActivity.swift */; };
@@ -2366,10 +2376,10 @@
 		FF0001AB2F000007000AAAAA /* WorldCupMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0001AB2F000004000AAAAA /* WorldCupMiddleware.swift */; };
 		FF0002AA2F000002000BBBBB /* ClearablesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0002AA2F000001000BBBBB /* ClearablesTests.swift */; };
 		FF0003AB2F000002000BBBBB /* WorldCupMiddlewareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0003AA2F000001000BBBBB /* WorldCupMiddlewareTests.swift */; };
-		FFCAFE022F0000AB000BBBBB /* WorldCupMatchCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCAFE012F0000AA000BBBBB /* WorldCupMatchCardViewTests.swift */; };
 		FF0003AD2F000004000BBBBB /* WorldCupCellFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0003AC2F000003000BBBBB /* WorldCupCellFactoryTests.swift */; };
 		FF0004AB2F000002000BBBBB /* WorldCupSectionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0004AA2F000001000BBBBB /* WorldCupSectionStateTests.swift */; };
 		FF0005AB2F000002000BBBBB /* MockWorldCupStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0005AA2F000001000BBBBB /* MockWorldCupStore.swift */; };
+		FFCAFE022F0000AB000BBBBB /* WorldCupMatchCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCAFE012F0000AA000BBBBB /* WorldCupMatchCardViewTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -9876,6 +9886,15 @@
 		8FB14368A63D59970BB3CC80 /* hy-AM */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hy-AM"; path = "hy-AM.lproj/Intro.strings"; sourceTree = "<group>"; };
 		8FDA44F2B06D5761B1933186 /* fil */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fil; path = fil.lproj/Search.strings; sourceTree = "<group>"; };
 		8FE16F642FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fxcb-disconnect-block-cookies-content.json"; sourceTree = "<group>"; };
+		8FE16F662FCD22F00094FA2C /* fxcb-aggressive-network-content.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fxcb-aggressive-network-content.json"; sourceTree = "<group>"; };
+		8FE16F682FCD22F10094FA2C /* fxcb-aggressive-cosmetic-content.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fxcb-aggressive-cosmetic-content.json"; sourceTree = "<group>"; };
+		8FE16F732FCD30000094FA2C /* AdGuardFilterEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdGuardFilterEngine.swift; sourceTree = "<group>"; };
+		8FE16F742FCD30000094FA2C /* AdGuardAdvancedBlockingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdGuardAdvancedBlockingHelper.swift; sourceTree = "<group>"; };
+		8FE16F772FCD30000094FA2C /* fxcb-adguard-base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fxcb-adguard-base.json"; sourceTree = "<group>"; };
+		8FE16F782FCD30000094FA2C /* fxcb-adguard-tracking.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fxcb-adguard-tracking.json"; sourceTree = "<group>"; };
+		8FE16F792FCD30000094FA2C /* fxcb-adguard-japanese.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fxcb-adguard-japanese.json"; sourceTree = "<group>"; };
+		8FE16F7A2FCD30000094FA2C /* fxcb-adguard-annoyances.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "fxcb-adguard-annoyances.json"; sourceTree = "<group>"; };
+		8FE16F7B2FCD30000094FA2C /* adguard-advanced-rules.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "adguard-advanced-rules.txt"; sourceTree = "<group>"; };
 		90794121B531190FE99303AA /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Today.strings; sourceTree = "<group>"; };
 		90AB4C7285299EB42B7F3E80 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		90D243608659440CC733A891 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Default Browser.strings"; sourceTree = "<group>"; };
@@ -11874,7 +11893,6 @@
 		FF0001AB2F000004000AAAAA /* WorldCupMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCupMiddleware.swift; sourceTree = "<group>"; };
 		FF0002AA2F000001000BBBBB /* ClearablesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearablesTests.swift; sourceTree = "<group>"; };
 		FF0003AA2F000001000BBBBB /* WorldCupMiddlewareTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCupMiddlewareTests.swift; sourceTree = "<group>"; };
-		FFCAFE012F0000AA000BBBBB /* WorldCupMatchCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCupMatchCardViewTests.swift; sourceTree = "<group>"; };
 		FF0003AC2F000003000BBBBB /* WorldCupCellFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCupCellFactoryTests.swift; sourceTree = "<group>"; };
 		FF0004AA2F000001000BBBBB /* WorldCupSectionStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCupSectionStateTests.swift; sourceTree = "<group>"; };
 		FF0005AA2F000001000BBBBB /* MockWorldCupStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWorldCupStore.swift; sourceTree = "<group>"; };
@@ -11886,6 +11904,7 @@
 		FF8D4A9183688EA96AFBB608 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/ClearHistoryConfirm.strings; sourceTree = "<group>"; };
 		FFA94EF3A2E3DC24A014D4B2 /* ga */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ga; path = ga.lproj/ErrorPages.strings; sourceTree = "<group>"; };
 		FFC049AA898EF4096E22F595 /* es-CL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-CL"; path = "es-CL.lproj/ClearHistoryConfirm.strings"; sourceTree = "<group>"; };
+		FFCAFE012F0000AA000BBBBB /* WorldCupMatchCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCupMatchCardViewTests.swift; sourceTree = "<group>"; };
 		FFEB4308B5A82E56F1EEEC56 /* oc */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = oc; path = oc.lproj/AuthenticationManager.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -11975,6 +11994,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FE16F722FCD30000094FA2C /* ContentBlockerConverter in Frameworks */,
 				AA93D2D82F71B445002E5E88 /* LLMKit in Frameworks */,
 				5A70EF0E295DFCCF00790249 /* Common in Frameworks */,
 				8A08EC6427EBDCAD00E119C7 /* AdServices.framework in Frameworks */,
@@ -14621,11 +14641,20 @@
 		8AD984F12AF1554F00B9FDA4 /* ContentBlocker */ = {
 			isa = PBXGroup;
 			children = (
+				8FE16F742FCD30000094FA2C /* AdGuardAdvancedBlockingHelper.swift */,
+				8FE16F732FCD30000094FA2C /* AdGuardFilterEngine.swift */,
 				EBB894F8219398E500EB91A0 /* ContentBlocker.swift */,
 				EBB894F9219398E500EB91A0 /* ContentBlocker+Safelist.swift */,
 				EBB894F7219398E500EB91A0 /* TabContentBlocker.swift */,
 				EBB894FA219398E500EB91A0 /* TabContentBlocker+ContentScript.swift */,
 				EBB894F5219398E500EB91A0 /* TrackingProtectionPageStats.swift */,
+				8FE16F7B2FCD30000094FA2C /* adguard-advanced-rules.txt */,
+				8FE16F682FCD22F10094FA2C /* fxcb-aggressive-cosmetic-content.json */,
+				8FE16F662FCD22F00094FA2C /* fxcb-aggressive-network-content.json */,
+				8FE16F7A2FCD30000094FA2C /* fxcb-adguard-annoyances.json */,
+				8FE16F772FCD30000094FA2C /* fxcb-adguard-base.json */,
+				8FE16F792FCD30000094FA2C /* fxcb-adguard-japanese.json */,
+				8FE16F782FCD30000094FA2C /* fxcb-adguard-tracking.json */,
 				8FE16F642FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json */,
 			);
 			path = ContentBlocker;
@@ -17832,6 +17861,7 @@
 			);
 			name = Client;
 			packageProductDependencies = (
+				8FE16F712FCD30000094FA2C /* ContentBlockerConverter */,
 				433F87CD2788EAB600693368 /* GCDWebServers */,
 				435C85EF2788F4D00072B526 /* Glean */,
 				5A871487292EA1440039A5BD /* Fuzi */,
@@ -18196,6 +18226,7 @@
 				AB2AC6612BCFD0A200022AAB /* XCRemoteSwiftPackageReference "swift-certificates" */,
 				5A984D322C8A31A0007938C9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				EDD592482FC1090C0015EF9E /* XCRemoteSwiftPackageReference "ModifiedCopyMacro" */,
+				8FE16F702FCD30000094FA2C /* XCRemoteSwiftPackageReference "SafariConverterLib" */,
 			);
 			productRefGroup = F84B21BF1A090F8100AAB793 /* Products */;
 			projectDirPath = "";
@@ -18429,6 +18460,13 @@
 				ED9DB4212DC57DF80072FF5F /* tags.yaml in Resources */,
 				C2F335342ECE33720071588A /* translations-engine.worker.js in Resources */,
 				C2F335352ECE33720071588A /* TranslationsEngine.js in Resources */,
+				8FE16F802FCD30000094FA2C /* adguard-advanced-rules.txt in Resources */,
+				8FE16F7F2FCD30000094FA2C /* fxcb-adguard-annoyances.json in Resources */,
+				8FE16F7C2FCD30000094FA2C /* fxcb-adguard-base.json in Resources */,
+				8FE16F7E2FCD30000094FA2C /* fxcb-adguard-japanese.json in Resources */,
+				8FE16F7D2FCD30000094FA2C /* fxcb-adguard-tracking.json in Resources */,
+				8FE16F692FCD22F10094FA2C /* fxcb-aggressive-cosmetic-content.json in Resources */,
+				8FE16F672FCD22F00094FA2C /* fxcb-aggressive-network-content.json in Resources */,
 				8FE16F652FCD22E80094FA2C /* fxcb-disconnect-block-cookies-content.json in Resources */,
 				D4AFAB0E2AFA8F9A000BFEAA /* SyncIntegrationTests in Resources */,
 				EDF2C05C2D6CDB6F00723609 /* AppIcons.xcassets in Resources */,
@@ -19888,6 +19926,8 @@
 				8A36BE2929EDBC6900AC1C5C /* ContentContainer.swift in Sources */,
 				E47616C71AB74CA600E7DD25 /* ReaderModeBarView.swift in Sources */,
 				D821E90E2141B71C00452C55 /* SiriSettingsViewController.swift in Sources */,
+				8FE16F762FCD30000094FA2C /* AdGuardAdvancedBlockingHelper.swift in Sources */,
+				8FE16F752FCD30000094FA2C /* AdGuardFilterEngine.swift in Sources */,
 				EBB89507219398E500EB91A0 /* ContentBlocker.swift in Sources */,
 				216A0D792A40E85A008077BA /* ThemeSettingsState.swift in Sources */,
 				5A3A2A0D287F742C00B79EAC /* BackgroundSyncUtility.swift in Sources */,
@@ -29000,7 +29040,7 @@
 				CODE_SIGN_ENTITLEMENTS = "$(inherit)Extensions/Entitlements/Fennec.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = Extensions/NotificationService/Info.plist;
 				OTHER_SWIFT_FLAGS = "-DMOZ_CHANNEL_developer -DMOZ_TARGET_NOTIFICATIONSERVICE";
@@ -29137,7 +29177,7 @@
 				CODE_SIGN_ENTITLEMENTS = Extensions/Entitlements/Fennec.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = WidgetKit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -29925,7 +29965,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -29953,7 +29993,7 @@
 				CODE_SIGN_ENTITLEMENTS = "$(inherit)Extensions/Entitlements/Fennec.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = Extensions/NotificationService/Info.plist;
 				OTHER_SWIFT_FLAGS = "-DMOZ_CHANNEL_developer -DMOZ_TARGET_NOTIFICATIONSERVICE";
@@ -29970,7 +30010,7 @@
 				CODE_SIGN_ENTITLEMENTS = "$(inherit)Extensions/Entitlements/Fennec.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = Extensions/ShareTo/Info.plist;
 				OTHER_SWIFT_FLAGS = "-DMOZ_CHANNEL_developer -DMOZ_TARGET_SHARETO";
@@ -29987,7 +30027,7 @@
 				CODE_SIGN_ENTITLEMENTS = Extensions/Entitlements/Fennec.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = WidgetKit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -30037,7 +30077,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -30930,7 +30970,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -31004,7 +31044,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -32175,7 +32215,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -32476,7 +32516,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -32516,7 +32556,7 @@
 				CODE_SIGN_ENTITLEMENTS = "$(inherit)Extensions/Entitlements/Fennec.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 43AQ936H96;
+				DEVELOPMENT_TEAM = 8V69934NVR;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = Extensions/ShareTo/Info.plist;
 				OTHER_SWIFT_FLAGS = "-DMOZ_CHANNEL_developer -DMOZ_TARGET_SHARETO";
@@ -32920,6 +32960,14 @@
 				version = 4.4.0;
 			};
 		};
+		8FE16F702FCD30000094FA2C /* XCRemoteSwiftPackageReference "SafariConverterLib" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AdguardTeam/SafariConverterLib.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.3.0;
+			};
+		};
 		AB2AC6612BCFD0A200022AAB /* XCRemoteSwiftPackageReference "swift-certificates" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-certificates.git";
@@ -33188,6 +33236,11 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = OnboardingKit;
 		};
+		8FE16F712FCD30000094FA2C /* ContentBlockerConverter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FE16F702FCD30000094FA2C /* XCRemoteSwiftPackageReference "SafariConverterLib" */;
+			productName = ContentBlockerConverter;
+		};
 		AA459F862F630F3500D05D04 /* QuickAnswersKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = QuickAnswersKit;
@@ -33255,7 +33308,6 @@
 		};
 		EDD09DC02FCF6AB20038C8FA /* ModifiedCopy */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EDD09DBF2FCF6AB20038C8FA /* XCRemoteSwiftPackageReference "ModifiedCopyMacro" */;
 			productName = ModifiedCopy;
 		};
 		EDD2A7F72CDACE7C00ED464C /* UnifiedSearchKit */ = {

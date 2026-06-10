@@ -133,6 +133,47 @@ class BrowserViewControllerWebViewDelegateTests: XCTestCase {
     }
 
     @MainActor
+    func testUserScriptManager_injectsAggressiveFlagWithWebcompatScript() {
+        let webView = anyWebView()
+
+        UserScriptManager.shared.injectUserScriptsIntoWebView(
+            webView,
+            nightMode: false,
+            noImageMode: false,
+            aggressiveAdBlocking: true
+        )
+
+        let scripts = webView.configuration.userContentController.userScripts
+        let aggressiveWebcompatScript = scripts.first {
+            $0.source.contains("window.__firefoxIOSAggressiveAdBlocking = true;")
+        }
+        XCTAssertNotNil(aggressiveWebcompatScript)
+        XCTAssertTrue(aggressiveWebcompatScript?.source.contains("adGuardAdvancedBlocking") == true)
+        XCTAssertTrue(aggressiveWebcompatScript?.source.contains("applyConfiguration") == true)
+        XCTAssertTrue(aggressiveWebcompatScript?.source.contains("delete window.__firefoxIOSAggressiveAdBlocking") == true)
+        XCTAssertTrue(aggressiveWebcompatScript?.source.contains("game8-ad-shield") == true)
+        XCTAssertTrue(aggressiveWebcompatScript?.source.contains("loader-check-10min") == true)
+        XCTAssertFalse(scripts.contains {
+            $0.source == "window.__firefoxIOSAggressiveAdBlocking = true"
+        })
+    }
+
+    @MainActor
+    func testUserScriptManager_doesNotEnablePoliciesOutsideAggressiveMode() {
+        let webView = anyWebView()
+
+        UserScriptManager.shared.injectUserScriptsIntoWebView(
+            webView,
+            nightMode: false,
+            noImageMode: false
+        )
+
+        XCTAssertFalse(webView.configuration.userContentController.userScripts.contains {
+            $0.source.contains("window.__firefoxIOSAggressiveAdBlocking = true;")
+        })
+    }
+
+    @MainActor
     func testWebViewDecidePolicyForNavigationAction_allowsAnyWebsiteBlockingUniversalLink_whenOptionEnabled() {
         let subject = createSubject()
         let tab = createTab()
