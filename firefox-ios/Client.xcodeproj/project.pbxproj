@@ -5460,6 +5460,8 @@
 		4359303D29F69CDF00896524 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/ZoomPageBar.strings"; sourceTree = "<group>"; };
 		435956AF2A24BF3B0029BB1D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/DisplayCard.strings; sourceTree = "<group>"; };
 		43597A6F2E3B86EF00E97199 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Summarizer.strings; sourceTree = "<group>"; };
+		43598D092FE434850079D085 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/ReaderModeBar.strings; sourceTree = "<group>"; };
+		43598D0A2FE434850079D085 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/WorldCup.strings; sourceTree = "<group>"; };
 		4359936D293E0B85000EFCD4 /* kab */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kab; path = kab.lproj/Alerts.strings; sourceTree = "<group>"; };
 		4359936E293E0B85000EFCD4 /* kab */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kab; path = kab.lproj/SearchHeaderTitle.strings; sourceTree = "<group>"; };
 		4359936F293E0B85000EFCD4 /* kab */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kab; path = kab.lproj/TabsTray.strings; sourceTree = "<group>"; };
@@ -21946,6 +21948,7 @@
 				43EFBADE2FB5EDA900982AFE /* sr */,
 				43F7A0F52FBF2E08004E4FFF /* ko */,
 				43010A1A2FBF2F6500134AA1 /* ug */,
+				43598D0A2FE434850079D085 /* da */,
 			);
 			name = WorldCup.strings;
 			sourceTree = "<group>";
@@ -24270,6 +24273,7 @@
 				439B77192FAC880F00E9F9E4 /* es */,
 				4342B23B2FB5ECA800676B5E /* km */,
 				433DE2CC2FB5ECDB001CAC13 /* ml */,
+				43598D092FE434850079D085 /* da */,
 			);
 			name = ReaderModeBar.strings;
 			sourceTree = "<group>";
